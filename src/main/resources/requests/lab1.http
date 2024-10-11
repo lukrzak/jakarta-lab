@@ -1,0 +1,43 @@
+### GET all the organisers
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers
+
+### GET ograniser
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555
+
+### GET non existing ograniser
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555556
+
+### GET ograniser with invalid UUID
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-5555555555567
+
+### GET ograniser's logo
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
+
+### PATCH ograniser's logo
+PATCH http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="logo"; filename="logo.png'
+
+< ../img/11111111-2222-3333-4444-555555555555.png
+--boundary--
+
+### DELETE ograniser's logo
+DELETE http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
+
+### GET ograniser's not existing logo
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
+
+### PUT ograniser's logo
+PUT http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="logo"; filename="logo.png'
+
+< ../img/test.png
+--boundary--
+
+### GET ograniser's logo
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/organisers/11111111-2222-3333-4444-555555555555/logo
