@@ -1,6 +1,7 @@
 package org.lab.services;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Participant;
@@ -12,7 +13,7 @@ public class ParticipantService {
     private final ParticipantRepository participantRepository;
 
     public ParticipantService() {
-        throw new RuntimeException("Incorrect initialization");
+        participantRepository = null;
     }
 
     @Inject

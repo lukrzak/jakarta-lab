@@ -1,0 +1,2 @@
+### Invoke CDI
+GET http://localhost:9080/jakarta-1.0-SNAPSHOT/api/cdi

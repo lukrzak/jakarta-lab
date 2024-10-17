@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import org.lab.dtos.GetOrganiserResponse;
+import org.lab.exceptions.EntityNotFoundException;
+import org.lab.services.EventService;
+import org.lab.services.ParticipantService;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -22,7 +25,10 @@ import java.util.regex.Pattern;
 public class ApiServlet extends HttpServlet {
 
     private final OrganiserController organiserController;
+    private final EventService eventService;
+    private final ParticipantService participantService;
     private final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+    private final Pattern CDI_URL = Pattern.compile("/cdi");
     private final Pattern ORGANISERS_URL = Pattern.compile("/organisers");
     private final Pattern ORGANISER_URL = Pattern.compile("/organisers/(%s)".formatted(UUID.pattern()));
     private final Pattern LOGO_URL = Pattern.compile("/organisers/(%s)/logo".formatted(UUID.pattern()));
@@ -38,8 +44,10 @@ public class ApiServlet extends HttpServlet {
     }
 
     @Inject
-    public ApiServlet(OrganiserController organiserController) {
+    public ApiServlet(OrganiserController organiserController, EventService es, ParticipantService ps) {
         this.organiserController = organiserController;
+        this.eventService = es;
+        this.participantService = ps;
     }
 
     @Override
@@ -70,6 +78,12 @@ public class ApiServlet extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
                 return;
+            } else if (path.matches(CDI_URL.pattern())) {
+                try {
+                    eventService.getTotalRevenue(1L);
+                } catch (EntityNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);

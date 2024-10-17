@@ -1,6 +1,7 @@
 package org.lab.services;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
@@ -9,13 +10,14 @@ import org.lab.repositories.EventRepository;
 
 import java.time.LocalDate;
 
-@ApplicationScoped
+@RequestScoped
 public class EventService {
 
     private final EventRepository eventRepository;
 
     public EventService() {
-        throw new RuntimeException("Initialization was not successful");
+        System.out.println("No-args constructor for EventService");
+        this.eventRepository = null;
     }
 
     @Inject
