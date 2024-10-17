@@ -1,5 +1,6 @@
 package org.lab.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 @MultipartConfig(maxFileSize = 200 * 1024)
 public class ApiServlet extends HttpServlet {
 
-    private OrganiserController organiserController;
+    private final OrganiserController organiserController;
     private final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
     private final Pattern ORGANISERS_URL = Pattern.compile("/organisers");
     private final Pattern ORGANISER_URL = Pattern.compile("/organisers/(%s)".formatted(UUID.pattern()));
@@ -36,10 +37,9 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        organiserController = (OrganiserController) getServletContext().getAttribute("organiserController");
+    @Inject
+    public ApiServlet(OrganiserController organiserController) {
+        this.organiserController = organiserController;
     }
 
     @Override
@@ -60,10 +60,10 @@ public class ApiServlet extends HttpServlet {
                 response.getWriter().write(jsonb.toJson(organiserController.getOrganisers()));
                 return;
             } else if (path.matches(LOGO_URL.pattern())) {
-                response.setContentType("image/png");
                 UUID uuid = extractUuid(LOGO_URL, path);
                 try {
                     byte[] logo = organiserController.getOrganiserLogo(uuid);
+                    response.setContentType("image/png");
                     response.setContentLength(logo.length);
                     response.getOutputStream().write(logo);
                 } catch (IOException e) {

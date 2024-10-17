@@ -1,5 +1,7 @@
 package org.lab.controllers;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.lab.dtos.GetOrganiserResponse;
 import org.lab.dtos.GetOrganisersResponse;
 import org.lab.exceptions.EntityNotFoundException;
@@ -10,10 +12,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+@RequestScoped
 public class OrganiserController {
 
     private final OrganiserService organiserService;
 
+    public OrganiserController() {
+        this.organiserService = null;
+    }
+
+    @Inject
     public OrganiserController(OrganiserService organiserService) {
         this.organiserService = organiserService;
     }

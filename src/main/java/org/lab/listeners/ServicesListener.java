@@ -11,10 +11,10 @@ public class ServicesListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        final OrganiserRepository organiserRepository = new OrganiserRepository();
         final String storagePath = event.getServletContext().getInitParameter("storagePath");
+        final OrganiserRepository organiserRepository = new OrganiserRepository();
 
-        event.getServletContext().setAttribute("organiserService", new OrganiserService(organiserRepository, storagePath));
+        event.getServletContext().setAttribute("organiserService", new OrganiserService(organiserRepository));
     }
 
 }

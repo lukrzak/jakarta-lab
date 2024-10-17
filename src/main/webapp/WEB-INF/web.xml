@@ -5,17 +5,4 @@
          version="6.0"
          metadata-complete="false">
 
-    <context-param>
-        <param-name>storagePath</param-name>
-        <param-value>D:\storage\</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>org.lab.listeners.ServicesListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>org.lab.listeners.ControllersListener</listener-class>
-    </listener>
-
 </web-app>
