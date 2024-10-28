@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{participantView.id}" required="true"/>
+        <f:viewAction action="#{participantView.load()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:outputText value="Id: #{participantView.getParticipant().id}"/> <br />
+        <h:outputText value="Email: #{participantView.getParticipant().email}"/> <br />
+        <h:outputText value="Payment status: #{participantView.getParticipant().paymentStatus}"/>
+    </ui:define>
+
+</ui:composition>

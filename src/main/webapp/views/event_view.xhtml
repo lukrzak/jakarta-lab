@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{viewEvent.id}" required="true"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:dataTable value="#{viewEvent.getParticipants()}" var="participant"
+                     styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+            <h:column>
+                <f:facet name="header">Participant email</f:facet>
+                <h:outputText value="#{participant.email}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Payment status</f:facet>
+                <h:outputText value="#{participant.paymentStatus}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">View</f:facet>
+                <h:link outcome="/views/participant_view.xhtml" value="View participant">
+                    <f:param name="id" value="#{participant.id}"/>
+                </h:link>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Delete</f:facet>
+                <h:form>
+                    <h:commandButton styleClass="btn" value="Delete"
+                                     action="#{viewEvent.deleteParticipant(participant.getId())}"/>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>
+    </ui:define>
+
+</ui:composition>

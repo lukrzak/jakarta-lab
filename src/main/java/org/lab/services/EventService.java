@@ -9,8 +9,9 @@ import org.lab.models.PaymentStatus;
 import org.lab.repositories.EventRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@RequestScoped
+@ApplicationScoped
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -26,6 +27,15 @@ public class EventService {
         System.out.println("EventService initialized successfully");
         eventRepository.getEvents()
                 .forEach(System.out::println);
+    }
+
+    public List<Event> getEvents() {
+        return eventRepository.getEvents();
+    }
+
+    public Event getEvent(Long id) throws EntityNotFoundException {
+        return eventRepository.getEvent(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     public boolean createEvent(String name, LocalDate date, float ticketPrice, float totalCost) {

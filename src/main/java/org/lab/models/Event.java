@@ -41,4 +41,8 @@ public class Event {
         return totalCost;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
 }

@@ -7,6 +7,8 @@ import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Participant;
 import org.lab.repositories.ParticipantRepository;
 
+import java.util.List;
+
 @ApplicationScoped
 public class ParticipantService {
 
@@ -24,12 +26,12 @@ public class ParticipantService {
                 .forEach(System.out::println);
     }
 
-    public boolean createParticipant(String email) {
-        long numberOfParticipants = participantRepository.getParticipants().size();
-        Participant participant = new Participant(++numberOfParticipants, email);
-
-        return participantRepository.addParticipant(participant);
-    }
+//    public boolean createParticipant(String email) {
+//        long numberOfParticipants = participantRepository.getParticipants().size();
+//        //Participant participant = new Participant(++numberOfParticipants, email);
+//
+//        return participantRepository.addParticipant(participant);
+//    }
 
     public void deleteParticipant(Long id) throws EntityNotFoundException {
         if (!participantRepository.deleteParticipant(id)) {
@@ -37,4 +39,15 @@ public class ParticipantService {
         }
     }
 
+    public List<Participant> getParticipantsByEvent(Long id) {
+        return participantRepository.getParticipantsByEvent(id);
+    }
+
+    public Participant getParticipant(Long id) throws EntityNotFoundException {
+        return participantRepository.getParticipant(id).orElseThrow(() -> new EntityNotFoundException(id));
+    }
+
+    public void updateParticipant(Long id, Participant participant) throws EntityNotFoundException {
+        participantRepository.updateParticipant(id, participant);
+    }
 }
