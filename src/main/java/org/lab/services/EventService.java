@@ -3,6 +3,7 @@ package org.lab.services;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import org.lab.dtos.PatchEventRequest;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
 import org.lab.models.PaymentStatus;
@@ -34,8 +35,21 @@ public class EventService {
     }
 
     public Event getEvent(Long id) throws EntityNotFoundException {
-        return eventRepository.getEvent(id)
+        Event event = eventRepository.getEvent(id)
                 .orElseThrow(() -> new EntityNotFoundException(id));
+        eventRepository.assignParticipants(event);
+        return event;
+    }
+
+    public boolean addEvent(Event event) {
+        return eventRepository.addEvent(event);
+    }
+
+    public void modifyEvent(Long id, PatchEventRequest request) throws EntityNotFoundException {
+        Event eventToModify = eventRepository.getEvent(id).orElseThrow(() -> new EntityNotFoundException(id));
+        eventToModify.setName(request.getName());
+        eventToModify.setStartDate(request.getStartDate());
+        eventToModify.setTicketPrice(request.getTicketPrice());
     }
 
     public boolean createEvent(String name, LocalDate date, float ticketPrice, float totalCost) {

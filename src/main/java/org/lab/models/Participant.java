@@ -1,5 +1,7 @@
 package org.lab.models;
 
+import org.lab.dtos.PutParticipantRequest;
+
 public class Participant {
 
     private final Long id;
@@ -10,6 +12,13 @@ public class Participant {
     public Participant(Long participantId, String email, Event event) {
         this.id = participantId;
         this.email = email;
+        this.paymentStatus = PaymentStatus.UNPAID;
+        this.event = event;
+    }
+
+    public Participant(Long id, PutParticipantRequest request, Event event) {
+        this.id = id;
+        this.email = request.getEmail();
         this.paymentStatus = PaymentStatus.UNPAID;
         this.event = event;
     }

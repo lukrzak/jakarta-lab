@@ -1,0 +1,81 @@
+### All events
+GET http://localhost:9080/jakarta/api/v1/events
+
+### Single event
+GET http://localhost:9080/jakarta/api/v1/events/1
+
+### Non-existing event
+GET http://localhost:9080/jakarta/api/v1/events/123
+
+### Putting new event
+PUT http://localhost:9080/jakarta/api/v1/events/123
+Content-Type: application/json
+
+{
+  "name": "New event",
+  "startDate": "2024-01-13",
+  "ticketPrice": 10.0,
+  "totalCost": 100.1
+}
+
+### New event display
+GET http://localhost:9080/jakarta/api/v1/events/123
+
+### Patching event
+PATCH http://localhost:9080/jakarta/api/v1/events/123
+Content-Type: application/json
+
+{
+  "name": "EVENT",
+  "startDate": "2024-03-13",
+  "ticketPrice": 12.0
+}
+
+### New event display
+GET http://localhost:9080/jakarta/api/v1/events/123
+
+### Deleting event
+DELETE http://localhost:9080/jakarta/api/v1/events/123
+
+### Deleted event display
+GET http://localhost:9080/jakarta/api/v1/events/123
+
+
+
+### Get participants of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants
+
+### Get participants of id=1 of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants/1
+
+### Put new participant
+PUT http://localhost:9080/jakarta/api/v1/events/1/participants/123
+Content-Type: application/json
+
+{
+  "email": "jendrula@jen.drek"
+}
+
+### Get participant of id=123 of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants/123
+
+### Get participants of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants
+
+### Patching event
+PATCH http://localhost:9080/jakarta/api/v1/events/1/participants/123
+Content-Type: application/json
+
+{
+  "email": "kwadratowy_jednrek@kwa.drat",
+  "paymentStatus": "PAID"
+}
+
+### Get participant of id=123 of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants/123
+
+### Deleting participant
+DELETE http://localhost:9080/jakarta/api/v1/events/1/participants/123
+
+### Get participant of id=123 of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants/123
