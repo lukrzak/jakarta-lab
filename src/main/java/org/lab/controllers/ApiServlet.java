@@ -78,12 +78,6 @@ public class ApiServlet extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
                 return;
-            } else if (path.matches(CDI_URL.pattern())) {
-                try {
-                    eventService.getTotalRevenue(1L);
-                } catch (EntityNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
             }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);

@@ -1,19 +1,39 @@
 package org.lab.models;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import org.lab.dtos.PutEventRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Event {
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
     private List<Participant> participants = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private LocalDate startDate;
     private float ticketPrice;
     private float totalCost;
+
+    public Event() {
+    }
+
+    public Event(String name, LocalDate startDate, float ticketPrice, float totalCost) {
+        this.name = name;
+        this.startDate = startDate;
+        this.ticketPrice = ticketPrice;
+        this.totalCost = totalCost;
+    }
 
     public Event(Long id, String name, LocalDate startDate, float ticketPrice, float totalCost) {
         this.id = id;

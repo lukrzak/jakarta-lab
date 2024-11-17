@@ -1,7 +1,9 @@
 package org.lab.repositories;
 
 import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
 import org.lab.models.Participant;
@@ -9,48 +11,40 @@ import org.lab.models.Participant;
 import java.util.List;
 import java.util.Optional;
 
-@Dependent
+@RequestScoped
 public class ParticipantRepository {
 
-    private final List<Participant> participants;
+    private EntityManager em;
 
-    @Inject
-    public ParticipantRepository(MemoryData memoryData) {
-        this.participants = memoryData.getParticipants();
+    @PersistenceContext(name = "eventsPu")
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     public Optional<Participant> getParticipant(Long id) {
-        return participants.stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst();
+        return Optional.ofNullable(em.find(Participant.class, id));
     }
 
     public List<Participant> getParticipants() {
-        return List.copyOf(participants);
+        return em.createQuery("select p from Participant p", Participant.class).getResultList();
     }
 
-    public boolean addParticipant(Participant participant) {
-        return participants.add(participant);
+    public void addParticipant(Participant participant) {
+        em.persist(participant);
     }
 
-    public boolean deleteParticipant(Long id) {
-        return participants.removeIf(e -> e.getId().equals(id));
+    public void deleteParticipant(Long id) {
+        em.remove(em.find(Participant.class, id));
     }
 
-    public boolean deleteParticipantByEvent(Long eventId) {
-        return participants.removeIf(e -> e.getEvent().getId().equals(eventId));
+    public void updateParticipant(Participant participant) {
+        em.merge(participant);
     }
 
-    public List<Participant> getParticipantsByEvent(Long eventId) {
-        return participants.stream().filter(e -> e.getEvent().getId().equals(eventId)).toList();
+    public List<Participant> getParticipantsByEvent(Event event) {
+        return em.createQuery("select p from Participant p where p.event = :event", Participant.class)
+                .setParameter("event", event)
+                .getResultList();
     }
 
-    public void updateParticipant(Long id, Participant participant) throws EntityNotFoundException {
-        Participant p = participants.stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(id));
-        p.setPaymentStatus(participant.getPaymentStatus());
-        p.setEmail(participant.getEmail());
-    }
 }

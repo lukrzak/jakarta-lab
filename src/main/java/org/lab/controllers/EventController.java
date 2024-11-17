@@ -61,11 +61,10 @@ public class EventController {
     }
 
     @PUT
-    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addEvent(@PathParam("id") Long id, PutEventRequest request) {
-        Event newEvent = new Event(id, request);
-        return Response.ok(eventService.addEvent(newEvent)).build();
+    public Response addEvent(PutEventRequest request) {
+        eventService.createEvent(request);
+        return Response.ok().build();
     }
 
     @PATCH

@@ -37,32 +37,37 @@ public class ParticipantController {
     @GET
     @Produces(APPLICATION_JSON)
     public Response getParticipants(@PathParam("event_id") Long event_id) {
-        List<Participant> participants = participantService.getParticipantsByEvent(event_id);
-        return Response.ok(new GetParticipantsResponse(participants)).build();
+        try {
+            List<Participant> participants = participantService.getParticipantsByEvent(event_id);
+            return Response.ok(new GetParticipantsResponse(participants)).build();
+        } catch (EntityNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
     @Path("/{id}")
     @Produces(APPLICATION_JSON)
     public Response getParticipant(@PathParam("event_id") Long event_id, @PathParam("id") Long id) {
-        List<Participant> participants = participantService.getParticipantsByEvent(event_id);
-        Optional<Participant> participant = participants.stream().filter(p -> p.getId().equals(id)).findFirst();
-
-        if (participant.isPresent()) {
-            return Response.ok(new GetParticipantResponse(participant.get())).build();
-        } else {
+        try {
+            List<Participant> participants = participantService.getParticipantsByEvent(event_id);
+            Optional<Participant> participant = participants.stream().filter(p -> p.getId().equals(id)).findFirst();
+            if (participant.isPresent()) {
+                return Response.ok(new GetParticipantResponse(participant.get())).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        } catch (EntityNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
     @PUT
-    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addParticipant(@PathParam("event_id") Long event_id,
-                                   @PathParam("id") Long id,
-                                   PutParticipantRequest request) {
+    public Response addParticipant(@PathParam("event_id") Long event_id, PutParticipantRequest request) {
         try {
-            return Response.ok(participantService.addParticipant(event_id, id, request)).build();
+            participantService.addParticipant(event_id, request);
+            return Response.ok().build();
         } catch (EntityNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

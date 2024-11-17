@@ -1,0 +1,51 @@
+### All events
+GET http://localhost:9080/jakarta/api/v1/events
+
+### Single event
+GET http://localhost:9080/jakarta/api/v1/events/1
+
+### Non-existing event
+GET http://localhost:9080/jakarta/api/v1/events/123
+
+### Putting new event
+PUT http://localhost:9080/jakarta/api/v1/events
+Content-Type: application/json
+
+{
+  "name": "New event",
+  "startDate": "2024-01-13",
+  "ticketPrice": 10.0,
+  "totalCost": 100.1
+}
+
+### Patching event
+PATCH http://localhost:9080/jakarta/api/v1/events/1
+Content-Type: application/json
+
+{
+  "name": "EVENT",
+  "startDate": "2024-03-13",
+  "ticketPrice": 12.0
+}
+
+### Deleting event
+DELETE http://localhost:9080/jakarta/api/v1/events/1
+
+### ---- PARTICIPANTS ----
+
+### Get participants of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants
+
+### Put new participant
+PUT http://localhost:9080/jakarta/api/v1/events/1/participants
+Content-Type: application/json
+
+{
+  "email": "jendrula@jen.drek"
+}
+
+### Get participant of id=1 of event 1
+GET http://localhost:9080/jakarta/api/v1/events/1/participants/2
+
+### Deleting participant
+DELETE http://localhost:9080/jakarta/api/v1/events/1/participants/1
