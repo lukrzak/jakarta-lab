@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import org.lab.dtos.PutEventRequest;
 
@@ -24,6 +26,9 @@ public class Event {
     private LocalDate startDate;
     private float ticketPrice;
     private float totalCost;
+    @ManyToOne
+    @JoinColumn(name = "organiser")
+    private Organiser organiser;
 
     public Event() {
     }

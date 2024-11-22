@@ -1,5 +1,7 @@
 package org.lab.controllers;
-import jakarta.inject.Inject;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -27,7 +29,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("events")
 public class EventController {
 
-    private final EventService eventService;
+    private EventService eventService;
 
     private HttpServletResponse response;
 
@@ -36,13 +38,14 @@ public class EventController {
         this.response = response;
     }
 
-    @Inject
-    public EventController(final EventService eventService) {
+    @EJB
+    public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
 
     @GET
     @Produces(APPLICATION_JSON)
+    @RolesAllowed("USER")
     public Response getEvents() {
         List<Event> events = eventService.getEvents();
         return Response.ok(new GetEventsResponse(events)).build();

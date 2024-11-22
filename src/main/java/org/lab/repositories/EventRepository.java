@@ -1,5 +1,6 @@
 package org.lab.repositories;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -8,7 +9,7 @@ import org.lab.models.Event;
 import java.util.List;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class EventRepository {
 
     private EntityManager em;

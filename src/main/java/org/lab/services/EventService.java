@@ -1,5 +1,7 @@
 package org.lab.services;
 
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -11,7 +13,8 @@ import org.lab.repositories.EventRepository;
 
 import java.util.List;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 public class EventService {
 
     private final EventRepository eventRepository;
@@ -34,7 +37,6 @@ public class EventService {
                 .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
-    @Transactional
     public void modifyEvent(Long id, PatchEventRequest request) throws EntityNotFoundException {
         Event eventToModify = eventRepository.getEvent(id).orElseThrow(() -> new EntityNotFoundException(id));
         eventToModify.setName(request.getName());
@@ -43,13 +45,11 @@ public class EventService {
         eventRepository.updateEvent(eventToModify);
     }
 
-    @Transactional
     public void createEvent(PutEventRequest request) {
         Event event = new Event(request.getName(), request.getStartDate(), request.getTicketPrice(), request.getTotalCost());
         eventRepository.addEvent(event);
     }
 
-    @Transactional
     public void deleteEvent(Long eventId) throws EntityNotFoundException {
         eventRepository.deleteEvent(eventId);
     }

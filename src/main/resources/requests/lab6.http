@@ -1,0 +1,23 @@
+PUT http://localhost:9080/jakarta/api/v1/organisers
+Content-Type: application/json
+
+{
+  "organiserName": "Organiser. Inc",
+  "password": "Qwerty"
+}
+
+### Get all the organisers
+GET http://localhost:9080/jakarta/api/v1/organisers
+
+### All events (non-auth)
+GET http://localhost:9080/jakarta/api/v1/events
+
+### All events (wrong-auth)
+GET http://localhost:9080/jakarta/api/v1/events
+Authorization: Basic dNXlcjpwYXNzd29yZA==
+Accept: application/json
+
+### All events (auth)
+GET http://localhost:9080/jakarta/api/v1/events
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+Accept: application/json
