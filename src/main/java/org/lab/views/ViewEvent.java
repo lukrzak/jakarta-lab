@@ -43,9 +43,9 @@ public class ViewEvent implements Serializable {
         this.id = id;
     }
 
-//    public List<Participant> getParticipants() {
-//        return participantService.getParticipantsByEvent(id);
-//    }
+    public List<Participant> getParticipants() throws EntityNotFoundException {
+        return participantService.getParticipantsByEvent(id);
+    }
 
     public void deleteParticipant(Long participantId) throws EntityNotFoundException {
         participantService.deleteParticipant(participantId);

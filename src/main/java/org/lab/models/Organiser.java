@@ -1,11 +1,9 @@
 package org.lab.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.lab.dtos.PutOrganiserRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +15,10 @@ public class Organiser {
     private String name;
     private float balance;
     private String password;
+    @Column(name = "role")
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> role = List.of(Role.USER);
 
     public Organiser() {
     }
@@ -45,5 +47,10 @@ public class Organiser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public class Role {
+        public static final String ADMIN = "ADMIN";
+        public static final String USER = "USER";
     }
 }

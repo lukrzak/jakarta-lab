@@ -49,7 +49,7 @@ GET http://localhost:9080/jakarta/api/v1/events/1/participants
 GET http://localhost:9080/jakarta/api/v1/events/1/participants/1
 
 ### Put new participant
-PUT http://localhost:9080/jakarta/api/v1/events/1/participants/123
+PUT http://localhost:9080/jakarta/api/v1/events/123/participants/1
 Content-Type: application/json
 
 {
@@ -62,7 +62,7 @@ GET http://localhost:9080/jakarta/api/v1/events/1/participants/123
 ### Get participants of event 1
 GET http://localhost:9080/jakarta/api/v1/events/1/participants
 
-### Patching event
+### Patching participant
 PATCH http://localhost:9080/jakarta/api/v1/events/1/participants/123
 Content-Type: application/json
 

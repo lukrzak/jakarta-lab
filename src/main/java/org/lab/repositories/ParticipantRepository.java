@@ -31,6 +31,7 @@ public class ParticipantRepository {
 
     public void addParticipant(Participant participant) {
         em.persist(participant);
+        em.refresh(em.find(Event.class, participant.getEvent().getId()));
     }
 
     public void deleteParticipant(Long id) {
@@ -42,9 +43,10 @@ public class ParticipantRepository {
     }
 
     public List<Participant> getParticipantsByEvent(Event event) {
-        return em.createQuery("select p from Participant p where p.event = :event", Participant.class)
-                .setParameter("event", event)
-                .getResultList();
+        return event.getParticipants();
+//        return em.createQuery("select p from Participant p where p.event = :event", Participant.class)
+//                .setParameter("event", event)
+//                .getResultList();
     }
 
 }
