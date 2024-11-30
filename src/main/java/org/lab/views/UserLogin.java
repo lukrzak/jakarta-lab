@@ -58,10 +58,5 @@ public class UserLogin {
         System.out.println("password: " + password);
         System.out.println("Auth completed: " + status.toString());
 
-//        if (status == AuthenticationStatus.SUCCESS) {
-//            return "index.xhtml?faces-redirect=true";
-//        } else {
-//            return null;
-//        }
     }
 }

@@ -27,14 +27,14 @@
 
                 <h:column>
                     <f:facet name="header">View</f:facet>
-                    <h:link outcome="/views/event_view.xhtml" value="View">
+                    <h:link outcome="/views/pages/event_view.xhtml" value="View">
                         <f:param name="id" value="#{event.id}"/>
                     </h:link>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Edit</f:facet>
-                    <h:link outcome="/views/edit_participant.xhtml" value="Edit">
+                    <h:link outcome="/views/pages/edit_participant.xhtml" value="Edit">
                         <f:param name="id" value="#{event.id}"/>
                     </h:link>
                 </h:column>

@@ -19,7 +19,7 @@ public class Organiser {
     @Column(name = "role")
     @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> role = new ArrayList<>();
+    private List<String> role = new ArrayList<>(List.of(Role.USER));
 
     public Organiser() {
     }
