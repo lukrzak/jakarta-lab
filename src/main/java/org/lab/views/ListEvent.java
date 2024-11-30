@@ -1,7 +1,7 @@
 package org.lab.views;
 
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import org.lab.exceptions.EntityNotFoundException;
@@ -14,11 +14,12 @@ import java.util.List;
 @Named
 public class ListEvent {
 
-    private final EventService eventService;
+    private EventService eventService;
 
-    @Inject
-    public ListEvent(EventService eventService) {
-        this.eventService = eventService;
+    @EJB
+    public void setEventService(EventService service) {
+        System.out.println("TEST");
+        this.eventService = service;
     }
 
     public List<Event> getEvents() {

@@ -18,4 +18,4 @@ Authorization: Basic dNXlcjpwYXNzd29yZA==
 
 ### All events (auth)
 GET http://localhost:9080/jakarta/api/v1/events
-Authorization: Basic dXNlcjpwYXNzd29yZA==
+Authorization: Basic b3JnYW5pc2VyOnBhc3N3b3Jk

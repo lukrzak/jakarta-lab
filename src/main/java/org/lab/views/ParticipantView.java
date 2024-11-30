@@ -1,7 +1,7 @@
 package org.lab.views;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Participant;
@@ -9,16 +9,16 @@ import org.lab.services.ParticipantService;
 
 import java.io.Serializable;
 
-@ViewScoped
+@RequestScoped
 @Named
 public class ParticipantView implements Serializable {
 
-    private final ParticipantService participantService;
+    private ParticipantService participantService;
     private Long id;
     private Participant participant;
 
-    @Inject
-    public ParticipantView(ParticipantService participantService) {
+    @EJB
+    public void setParticipantService(ParticipantService participantService) {
         this.participantService = participantService;
     }
 

@@ -9,6 +9,7 @@ GET http://localhost:9080/jakarta/api/v1/events/123
 
 ### Putting new event
 PUT http://localhost:9080/jakarta/api/v1/events
+Authorization: Basic b3JnYW5pc2VyOnBhc3N3b3Jk
 Content-Type: application/json
 
 {

@@ -3,6 +3,7 @@ package org.lab.models;
 import jakarta.persistence.*;
 import org.lab.dtos.PutOrganiserRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class Organiser {
     @Column(name = "role")
     @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> role = List.of(Role.USER);
+    private List<String> role = new ArrayList<>();
 
     public Organiser() {
     }
@@ -31,6 +32,10 @@ public class Organiser {
     public Organiser(String name) {
         this.name = name;
         this.balance = 0;
+    }
+
+    public void setRole(String role) {
+        this.role.add(role);
     }
 
     public UUID getId() {

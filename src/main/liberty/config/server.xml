@@ -15,16 +15,13 @@
         <web-resource-collection>
             <web-resource-name>Protected Resources</web-resource-name>
             <url-pattern>/api/v1/events/*</url-pattern>
+            <web-resource-name>Protected Pages</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>USER</role-name>
         </auth-constraint>
     </security-constraint>
-
-    <login-config>
-        <auth-method>BASIC</auth-method>
-        <realm-name>jakarta</realm-name>
-    </login-config>
 
     <security-role>
         <role-name>USER</role-name>

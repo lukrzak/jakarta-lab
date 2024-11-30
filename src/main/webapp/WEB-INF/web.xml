@@ -29,4 +29,26 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Pages</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+<!--    <login-config>-->
+<!--        <auth-method>FORM</auth-method>-->
+<!--        <realm-name>jakarta</realm-name>-->
+<!--        <form-login-config>-->
+<!--            <form-login-page>/views/login.xhtml</form-login-page>-->
+<!--            <form-error-page>/views/login-error.xhtml</form-error-page>-->
+<!--        </form-login-config>-->
+<!--    </login-config>-->
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+
 </web-app>

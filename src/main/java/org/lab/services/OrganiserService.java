@@ -50,6 +50,11 @@ public class OrganiserService {
     public void addOrganiser(PutOrganiserRequest request) {
         Organiser organiser = new Organiser(request.getOrganiserName());
         organiser.setPassword(passwordHash.generate(request.getPassword().toCharArray()));
+        organiser.setRole(Organiser.Role.USER);
+        organiserRepository.addOrganiser(organiser);
+    }
+
+    public void addOrganiser(Organiser organiser) {
         organiserRepository.addOrganiser(organiser);
     }
 

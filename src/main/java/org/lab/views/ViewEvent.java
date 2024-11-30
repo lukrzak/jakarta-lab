@@ -1,7 +1,7 @@
 package org.lab.views;
 
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
@@ -12,19 +12,22 @@ import org.lab.services.ParticipantService;
 import java.io.Serializable;
 import java.util.List;
 
-@ViewScoped
+@RequestScoped
 @Named
 public class ViewEvent implements Serializable {
 
-    private final EventService eventService;
-    private final ParticipantService participantService;
+    private EventService eventService;
+    private ParticipantService participantService;
     private Long id;
 
-    @Inject
-    public ViewEvent(EventService eventService, ParticipantService participantService) {
-        System.out.println("View event initialized");
-        this.eventService = eventService;
-        this.participantService = participantService;
+    @EJB
+    public void setEventService(EventService service) {
+        this.eventService = service;
+    }
+
+    @EJB
+    public void setParticipantService(ParticipantService service) {
+        this.participantService = service;
     }
 
     public Event getEvent() {

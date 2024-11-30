@@ -42,6 +42,8 @@ public class OrganiserRepository {
 
     public void addOrganiser(Organiser organiser) {
         em.persist(organiser);
+        em.flush();
+        em.clear();
     }
 
 
