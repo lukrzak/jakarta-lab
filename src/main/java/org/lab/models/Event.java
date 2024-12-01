@@ -30,6 +30,14 @@ public class Event {
     @JoinColumn(name = "organiser")
     private Organiser organiser;
 
+    public Organiser getOrganiser() {
+        return organiser;
+    }
+
+    public void setOrganiser(Organiser organiser) {
+        this.organiser = organiser;
+    }
+
     public Event() {
     }
 

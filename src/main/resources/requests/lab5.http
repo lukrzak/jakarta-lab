@@ -16,7 +16,8 @@ Content-Type: application/json
   "name": "New event",
   "startDate": "2024-01-13",
   "ticketPrice": 10.0,
-  "totalCost": 100.1
+  "totalCost": 100.1,
+  "organiserName": "user"
 }
 
 ### Patching event

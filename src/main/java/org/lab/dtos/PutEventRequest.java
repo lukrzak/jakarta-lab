@@ -8,6 +8,15 @@ public class PutEventRequest {
     private LocalDate startDate;
     private float ticketPrice;
     private float totalCost;
+    private String organiserName;
+
+    public String getOrganiserName() {
+        return organiserName;
+    }
+
+    public void setOrganiserName(String organiserName) {
+        this.organiserName = organiserName;
+    }
 
     public String getName() {
         return name;

@@ -9,6 +9,8 @@ import org.lab.dtos.PatchEventRequest;
 import org.lab.dtos.PutEventRequest;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
+import org.lab.models.Organiser;
+import org.lab.models.Participant;
 import org.lab.repositories.EventRepository;
 
 import java.util.List;
@@ -18,18 +20,28 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final OrganiserService organiserService;
+    private final ParticipantService participantService;
 
     public EventService() {
         this.eventRepository = null;
+        this.organiserService = null;
+        this.participantService = null;
     }
 
     @Inject
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, OrganiserService organiserService, ParticipantService participantService) {
         this.eventRepository = eventRepository;
+        this.organiserService = organiserService;
+        this.participantService = participantService;
     }
 
     public List<Event> getEvents() {
         return eventRepository.getEvents();
+    }
+
+    public List<Event> getEvents(String username) {
+        return eventRepository.getEvents(username);
     }
 
     public Event getEvent(Long id) throws EntityNotFoundException {
@@ -47,7 +59,15 @@ public class EventService {
 
     public void createEvent(PutEventRequest request) {
         Event event = new Event(request.getName(), request.getStartDate(), request.getTicketPrice(), request.getTotalCost());
+        Organiser organiser = organiserService.getOrganiser(request.getOrganiserName()).orElse(null);
+        event.setOrganiser(organiser);
         eventRepository.addEvent(event);
+
+
+        Participant p1 = new Participant("email1@gmail.com", event);
+        Participant p2 = new Participant("email2@gmail.com", event);
+        participantService.addParticipant(p1);
+        participantService.addParticipant(p2);
     }
 
     public void deleteEvent(Long eventId) throws EntityNotFoundException {

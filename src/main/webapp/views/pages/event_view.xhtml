@@ -7,11 +7,16 @@
 
     <f:metadata>
         <f:viewParam name="id" value="#{viewEvent.id}" required="true"/>
+        <f:viewAction action="#{viewEvent.verify()}"/>
     </f:metadata>
 
     <ui:define name="content">
+        <h:panelGroup rendered="#{viewEvent.isAuthorizedToViewParticipant() == false}">
+            <h1>Unauthorized to view</h1>
+        </h:panelGroup>
         <h:dataTable value="#{viewEvent.getParticipants()}" var="participant"
-                     styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                     styleClass="table align-middle mb-0 bg-white" headerClass="bg-light"
+                     rendered="#{viewEvent.isAuthorizedToViewParticipant() == true}">
             <h:column>
                 <f:facet name="header">Participant email</f:facet>
                 <h:outputText value="#{participant.email}"/>

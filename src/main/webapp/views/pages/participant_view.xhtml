@@ -11,9 +11,14 @@
     </f:metadata>
 
     <ui:define name="content">
-        <h:outputText value="Id: #{participantView.getParticipant().id}"/> <br />
-        <h:outputText value="Email: #{participantView.getParticipant().email}"/> <br />
-        <h:outputText value="Payment status: #{participantView.getParticipant().paymentStatus}"/>
+        <h:panelGroup rendered="#{participantView.authorizedToViewParticipant == true}">
+            <h:outputText value="Id: #{participantView.getParticipant().id}"/> <br />
+            <h:outputText value="Email: #{participantView.getParticipant().email}"/> <br />
+            <h:outputText value="Payment status: #{participantView.getParticipant().paymentStatus}"/>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{participantView.authorizedToViewParticipant == false}">
+            <h1>Unauthorized to view</h1>
+        </h:panelGroup>
     </ui:define>
 
 </ui:composition>

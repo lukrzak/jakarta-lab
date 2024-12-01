@@ -1,5 +1,6 @@
 package org.lab.controllers;
 
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -17,6 +18,7 @@ import org.lab.dtos.PutParticipantRequest;
 import org.lab.dtos.PatchParticipantRequest;
 import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Participant;
+import org.lab.services.OrganiserService;
 import org.lab.services.ParticipantService;
 
 import java.util.List;
@@ -27,10 +29,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/events/{event_id}/participants")
 public class ParticipantController {
 
-    private final ParticipantService participantService;
+    private ParticipantService participantService;
 
-    @Inject
-    public ParticipantController(ParticipantService participantService) {
+    @EJB
+    public void setParticipantService(ParticipantService participantService) {
         this.participantService = participantService;
     }
 

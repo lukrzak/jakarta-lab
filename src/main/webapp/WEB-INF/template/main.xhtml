@@ -8,7 +8,7 @@
 <f:view>
     <h:head>
         <meta charset="UTF-8"/>
-        <title>Event organiser</title>
+        <title>#{msg['title']}</title>
 
         <h:outputStylesheet library="webjars" name="mdb-ui-kit/6.4.0/css/mdb.min.css"/>
         <h:outputStylesheet library="default" name="css/main.css"/>
@@ -19,18 +19,24 @@
     <h:body>
         <div class="container">
             <header class="mb-4 mt-4">
-                <h1>Event organiser page</h1>
-                <h:graphicImage name="images/logo.png" alt="Literally me"/>
+                <h1>#{msg['event.organiser.page']}</h1>
+                <h:graphicImage value="#{logo.getImgPath()}" alt="Logo" style="max-width: 300px; max-height: 300px"/>
+                <h:form styleClass="container d-flex  align-items-center justify-content-end"
+                        rendered="#{facesContext.externalContext.userPrincipal != null}">
+                    <p>#{msg['logged']}</p> <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                    <h:commandButton styleClass="btn btn-link" value="Logout"
+                                     action="#{userLogin.logoutAction()}"/>
+                </h:form>
             </header>
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                 <div class="container-fluid">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <h:link styleClass="nav-link" outcome="/index.xhtml">Home</h:link>
+                            <h:link styleClass="nav-link" outcome="/index.xhtml">#{msg['home']}</h:link>
                         </li>
                         <li class="nav-item">
-                            <h:link styleClass="nav-link" outcome="/views/pages/event_list.xhtml">Events</h:link>
+                            <h:link styleClass="nav-link" outcome="/views/pages/event_list.xhtml">#{msg['events']}</h:link>
                         </li>
                     </ul>
                 </div>

@@ -9,8 +9,13 @@ import jakarta.security.enterprise.SecurityContext;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.Password;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
+import java.util.Locale;
 
 import static jakarta.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 
@@ -46,7 +51,7 @@ public class UserLogin {
         this.password = password;
     }
 
-    public void loginAction() {
+    public String loginAction() {
         Credential credential = new UsernamePasswordCredential(username, new Password(password));
         AuthenticationStatus status = securityContext.authenticate(
                 request,
@@ -58,5 +63,12 @@ public class UserLogin {
         System.out.println("password: " + password);
         System.out.println("Auth completed: " + status.toString());
 
+        return "/views/pages/event_list.xhtml?faces-redirect=true";
+    }
+
+    public String logoutAction() throws ServletException {
+        System.out.println("LOgout");
+        request.logout();
+        return "/views/auth/login.xhtml?faces-redirect=true";
     }
 }

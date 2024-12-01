@@ -1,17 +1,15 @@
 package org.lab.repositories;
 
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.lab.exceptions.EntityNotFoundException;
 import org.lab.models.Event;
 import org.lab.models.Participant;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequestScoped
+@Dependent
 public class ParticipantRepository {
 
     private EntityManager em;
@@ -30,9 +28,15 @@ public class ParticipantRepository {
     }
 
     public void addParticipant(Participant participant) {
+        Event event = participant.getEvent();
+        if (event.getId() == null) {
+            em.persist(event);
+        } else {
+            em.merge(event);
+        }
         em.persist(participant);
-        em.refresh(em.find(Event.class, participant.getEvent().getId()));
     }
+
 
     public void deleteParticipant(Long id) {
         em.remove(em.find(Participant.class, id));

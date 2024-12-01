@@ -11,7 +11,6 @@ import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import org.lab.models.Organiser;
-import org.lab.repositories.OrganiserRepository;
 import org.lab.services.OrganiserService;
 
 @Singleton
@@ -21,15 +20,11 @@ import org.lab.services.OrganiserService;
 @RunAs(Organiser.Role.ADMIN)
 public class UsersMemory {
 
+    @Inject
     private OrganiserService organiserService;
 
     @Inject
     private Pbkdf2PasswordHash passwordHash;
-
-    @EJB
-    public void setOrganiserService(OrganiserService organiserService) {
-        this.organiserService = organiserService;
-    }
 
     @PostConstruct
     public void init() {

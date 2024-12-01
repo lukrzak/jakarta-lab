@@ -1,5 +1,7 @@
 package org.lab.services;
 
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,7 +15,8 @@ import org.lab.repositories.ParticipantRepository;
 
 import java.util.List;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
@@ -39,24 +42,24 @@ public class ParticipantService {
         return participantRepository.getParticipantsByEvent(event);
     }
 
-    @Transactional
     public void addParticipant(Long event_id, PutParticipantRequest request) throws EntityNotFoundException {
         Event event = eventRepository.getEvent(event_id).orElseThrow(() -> new EntityNotFoundException(event_id));
         Participant participant = new Participant(request.getEmail(), event);
         participantRepository.addParticipant(participant);
     }
 
-    @Transactional
+    public void addParticipant(Participant participant) {
+        participantRepository.addParticipant(participant);
+    }
+
     public void deleteParticipant(Long id) throws EntityNotFoundException {
         participantRepository.deleteParticipant(id);
     }
 
-    @Transactional
     public void modifyParticipant(Long id, PatchParticipantRequest request) throws EntityNotFoundException {
         Participant participant = participantRepository.getParticipant(id).orElseThrow(() -> new EntityNotFoundException(id));
         participant.setEmail(request.getEmail());
         participant.setPaymentStatus(request.getPaymentStatus());
         participantRepository.updateParticipant(participant);
     }
-
 }
