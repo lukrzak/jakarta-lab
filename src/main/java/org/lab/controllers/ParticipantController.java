@@ -2,6 +2,7 @@ package org.lab.controllers;
 
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -10,6 +11,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.lab.dtos.GetParticipantResponse;
@@ -31,6 +33,13 @@ public class ParticipantController {
 
     private ParticipantService participantService;
 
+    private HttpServletResponse response;
+
+    @Context
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
     @EJB
     public void setParticipantService(ParticipantService participantService) {
         this.participantService = participantService;
@@ -40,6 +49,10 @@ public class ParticipantController {
     @Produces(APPLICATION_JSON)
     public Response getParticipants(@PathParam("event_id") Long event_id) {
         try {
+            if (event_id == 0) {
+                List<Participant> participants = participantService.getParticipants();
+                return Response.ok(new GetParticipantsResponse(participants)).build();
+            }
             List<Participant> participants = participantService.getParticipantsByEvent(event_id);
             return Response.ok(new GetParticipantsResponse(participants)).build();
         } catch (EntityNotFoundException e) {

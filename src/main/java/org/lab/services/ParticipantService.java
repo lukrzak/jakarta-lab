@@ -37,6 +37,10 @@ public class ParticipantService {
         return participantRepository.getParticipant(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
+    public List<Participant> getParticipants() {
+        return participantRepository.getParticipants();
+    }
+
     public List<Participant> getParticipantsByEvent(Long id) throws EntityNotFoundException {
         Event event = eventRepository.getEvent(id).orElseThrow(() -> new EntityNotFoundException(id));
         return participantRepository.getParticipantsByEvent(event);

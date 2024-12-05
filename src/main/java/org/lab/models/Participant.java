@@ -6,7 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import org.lab.dtos.PutParticipantRequest;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Participant {
@@ -19,6 +24,37 @@ public class Participant {
     @ManyToOne
     @JoinColumn(name = "event")
     private Event event;
+
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime updated;
+
+    @PrePersist
+    private void prePersist() {
+        created = LocalDateTime.now();
+        updated = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        updated = LocalDateTime.now();
+    }
 
     public Participant() {
     }

@@ -45,7 +45,6 @@ public class EventController {
 
     @GET
     @Produces(APPLICATION_JSON)
-    @RolesAllowed("USER")
     public Response getEvents() {
         List<Event> events = eventService.getEvents();
         return Response.ok(new GetEventsResponse(events)).build();
@@ -54,7 +53,6 @@ public class EventController {
     @GET
     @Path("/{id}")
     @Produces(APPLICATION_JSON)
-    @RolesAllowed("USER")
     public Response getEvent(@PathParam("id") Long id) {
         try {
             Event event = eventService.getEvent(id);
@@ -66,7 +64,6 @@ public class EventController {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
     public Response addEvent(PutEventRequest request) {
         eventService.createEvent(request);
         return Response.ok().build();
@@ -75,7 +72,6 @@ public class EventController {
     @PATCH
     @Path("/{id}")
     @Consumes(APPLICATION_JSON)
-    @RolesAllowed("USER")
     public Response modifyEvent(@PathParam("id") Long id, PatchEventRequest request) {
         try {
             eventService.modifyEvent(id, request);
@@ -87,7 +83,6 @@ public class EventController {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("USER")
     public Response deleteEvent(@PathParam("id") Long id) {
         try {
             eventService.deleteEvent(id);

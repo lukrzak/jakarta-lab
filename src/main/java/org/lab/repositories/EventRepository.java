@@ -4,6 +4,10 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import org.lab.models.Event;
 import org.lab.models.Organiser;
 
@@ -25,13 +29,24 @@ public class EventRepository {
     }
 
     public List<Event> getEvents() {
-        return em.createQuery("select e from Event e", Event.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Event> cq = cb.createQuery(Event.class);
+        Root<Event> root = cq.from(Event.class);
+        cq.select(root);
+        return em.createQuery(cq).getResultList();
     }
 
     public List<Event> getEvents(String username) {
-        return em.createQuery("select e from Event e where e.organiser.name = :name", Event.class)
-                .setParameter("name", username)
-                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Event> cq = cb.createQuery(Event.class);
+        Root<Event> eventRoot = cq.from(Event.class);
+        Join<Event, Organiser> organiserJoin = eventRoot.join("organiser");
+        cq.where(cb.equal(organiserJoin.get("name"), username));
+
+        return em.createQuery(cq).getResultList();
+//        return em.createQuery("select e from Event e where e.organiser.name = :name", Event.class)
+//                .setParameter("name", username)
+//                .getResultList();
     }
 
     public void addEvent(Event event) {

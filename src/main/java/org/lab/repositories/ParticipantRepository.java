@@ -3,7 +3,11 @@ package org.lab.repositories;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.lab.models.Event;
+import org.lab.models.Organiser;
 import org.lab.models.Participant;
 
 import java.util.List;
@@ -24,16 +28,16 @@ public class ParticipantRepository {
     }
 
     public List<Participant> getParticipants() {
-        return em.createQuery("select p from Participant p", Participant.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
+        Root<Participant> root = cq.from(Participant.class);
+        cq.select(root);
+
+        return em.createQuery(cq).getResultList();
+        //return em.createQuery("select p from Participant p", Participant.class).getResultList();
     }
 
     public void addParticipant(Participant participant) {
-        Event event = participant.getEvent();
-        if (event.getId() == null) {
-            em.persist(event);
-        } else {
-            em.merge(event);
-        }
         em.persist(participant);
     }
 
@@ -47,10 +51,12 @@ public class ParticipantRepository {
     }
 
     public List<Participant> getParticipantsByEvent(Event event) {
-        return event.getParticipants();
-//        return em.createQuery("select p from Participant p where p.event = :event", Participant.class)
-//                .setParameter("event", event)
-//                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
+        Root<Participant> participantRoot = cq.from(Participant.class);
+        cq.where(cb.equal(participantRoot.get("event"), event));
+
+        return em.createQuery(cq).getResultList();
     }
 
 }

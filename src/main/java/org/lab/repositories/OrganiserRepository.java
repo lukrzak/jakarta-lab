@@ -5,6 +5,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import org.lab.models.Event;
 import org.lab.models.Organiser;
 
 import java.util.List;
@@ -27,16 +31,24 @@ public class OrganiserRepository {
 
     public Optional<Organiser> getOrganiser(String name) {
         try {
-            return Optional.of(em.createQuery("select o from Organiser o where o.name = :name", Organiser.class)
-                    .setParameter("name", name)
-                    .getSingleResult());
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Organiser> cq = cb.createQuery(Organiser.class);
+            Root<Organiser> organiserRoot = cq.from(Organiser.class);
+            cq.where(cb.equal(organiserRoot.get("name"), name));
+            return Optional.of(em.createQuery(cq).getSingleResult());
         } catch (EntityNotFoundException | NoResultException ex) {
             return Optional.empty();
         }
     }
 
     public List<Organiser> getOrganisers() {
-        return em.createQuery("select o from Organiser o", Organiser.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Organiser> cq = cb.createQuery(Organiser.class);
+        Root<Organiser> root = cq.from(Organiser.class);
+        cq.select(root);
+
+        return em.createQuery(cq).getResultList();
+        //return em.createQuery("select o from Organiser o", Organiser.class).getResultList();
     }
 
     public void addOrganiser(Organiser organiser) {

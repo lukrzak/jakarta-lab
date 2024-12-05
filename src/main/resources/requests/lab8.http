@@ -1,0 +1,41 @@
+### e1
+PUT http://localhost:9080/jakarta/api/v1/events
+Content-Type: application/json
+
+{
+  "name": "1",
+  "startDate": "2024-01-13",
+  "ticketPrice": 10.0,
+  "totalCost": 100.1,
+  "organiserName": "user"
+}
+
+### All events
+GET http://localhost:9080/jakarta/api/v1/events
+
+### p1
+PUT http://localhost:9080/jakarta/api/v1/events/1/participants
+Content-Type: application/json
+
+{
+  "email": "jendrula@jen.drek"
+}
+
+### p2
+PUT http://localhost:9080/jakarta/api/v1/events/1/participants
+Content-Type: application/json
+
+{
+  "email": "jendrula2@jen.drek"
+}
+
+### Get all participants
+GET http://localhost:9080/jakarta/api/v1/events/0/participants
+
+### patch new participant
+PATCH http://localhost:9080/jakarta/api/v1/events/1/participants/5
+Content-Type: application/json
+
+{
+  "email": "modyfikaca@asdas.com"
+}
